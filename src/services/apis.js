@@ -8,7 +8,7 @@ const BASE_URL =
   browserEnv.VITE_API_BASE_URL ||
   browserEnv.REACT_APP_BASE_URL ||
   legacyEnv.REACT_APP_BASE_URL ||
-  "http://localhost:4000/api/v1"
+  "https://studysphere-backend-ocjf.onrender.com/api/v1"
 
 // AUTH ENDPOINTS
 export const endpoints = {
@@ -91,6 +91,7 @@ export const categories = {
 export const catalogData = {
   CATALOGPAGEDATA_API: BASE_URL + "/course/getCategoryPageDetails",
 }
+
 // CONTACT-US API
 export const contactusEndpoint = {
   CONTACT_US_API: BASE_URL + "/reach/contact",
