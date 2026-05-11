@@ -20,12 +20,21 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			trim: true,
+			lowercase: true,
+			unique: true,
 		},
 
 		// Define the password field with type String and required
 		password: {
 			type: String,
-			required: true,
+			required: function () {
+				return !this.googleId;
+			},
+		},
+		googleId: {
+			type: String,
+			index: true,
+			sparse: true,
 		},
 		// Define the role field with type String and enum values of "Admin", "Student", or "Visitor"
 		accountType: {
@@ -55,6 +64,9 @@ const userSchema = new mongoose.Schema(
 		token: {
 			type: String,
 		},
+		refreshTokenHash: {
+			type: String,
+		},
 		resetPasswordExpires: {
 			type: Date,
 		},
@@ -68,6 +80,40 @@ const userSchema = new mongoose.Schema(
 				ref: "courseProgress",
 			},
 		],
+
+		// Student wishlist
+		wishlist: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Course",
+			},
+		],
+		xp: {
+			type: Number,
+			default: 0,
+		},
+		learningStreak: {
+			current: { type: Number, default: 0 },
+			longest: { type: Number, default: 0 },
+			lastStudiedAt: { type: Date },
+		},
+		badges: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Badge",
+			},
+		],
+		subscriptions: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Subscription",
+			},
+		],
+		preferences: {
+			language: { type: String, default: "en" },
+			theme: { type: String, enum: ["light", "dark", "system"], default: "system" },
+			emailNotifications: { type: Boolean, default: true },
+		},
 
 		// Add timestamps for when the document is created and last modified
 	},

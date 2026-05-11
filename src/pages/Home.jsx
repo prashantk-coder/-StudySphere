@@ -1,194 +1,200 @@
-// Icons Import
-import { FaArrowRight } from "react-icons/fa"
+import { motion } from "framer-motion"
+import { FaArrowRight, FaBolt, FaChartLine, FaCode, FaCrown, FaPlay, FaShieldAlt } from "react-icons/fa"
 import { Link } from "react-router-dom"
 
-// Image and Video Import
 import Banner from "../assets/Images/banner.mp4"
-// Component Imports
 import Footer from "../components/common/Footer"
 import ReviewSlider from "../components/common/ReviewSlider"
-import CTAButton from "../components/core/HomePage/Button"
-import CodeBlocks from "../components/core/HomePage/CodeBlocks"
-import ExploreMore from "../components/core/HomePage/ExploreMore"
-import HighlightText from "../components/core/HomePage/HighlightText"
-import InstructorSection from "../components/core/HomePage/InstructorSection"
-import LearningLanguageSection from "../components/core/HomePage/LearningLanguageSection"
-import TimelineSection from "../components/core/HomePage/TimelineSection"
+
+const stats = [
+  { label: "active learners", value: "84K+" },
+  { label: "mentor led courses", value: "1.2K" },
+  { label: "avg completion lift", value: "37%" },
+  { label: "live rooms/month", value: "9.8K" },
+]
+
+const pillars = [
+  {
+    icon: FaPlay,
+    title: "Immersive course player",
+    copy: "Video progress, bookmarks, markdown notes, resources, certificates, and streaks live in one focused workspace.",
+  },
+  {
+    icon: FaChartLine,
+    title: "Instructor intelligence",
+    copy: "Revenue, learner drop-offs, reviews, quiz performance, and approval status are shaped for fast decisions.",
+  },
+  {
+    icon: FaBolt,
+    title: "Gamified momentum",
+    copy: "XP, badges, daily challenges, leaderboards, and Duolingo-style streak loops keep learning alive.",
+  },
+  {
+    icon: FaCode,
+    title: "Practice rooms",
+    copy: "Coding playgrounds, interview rooms, discussion threads, live chat, and whiteboards support cohort energy.",
+  },
+]
+
+const adminCards = [
+  "Course approvals",
+  "Payment monitoring",
+  "Reported content",
+  "Revenue tracking",
+  "User trust controls",
+  "Subscription health",
+]
 
 function Home() {
   return (
-    <div>
-      {/* Section 1 */}
-      <div className="relative mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 text-white">
-        {/* Become a Instructor Button */}
-        <Link to={"/signup"}>
-          <div className="group mx-auto mt-16 w-fit rounded-full bg-richblack-800 p-1 font-bold text-richblack-200 drop-shadow-[0_1.5px_rgba(255,255,255,0.25)] transition-all duration-200 hover:scale-95 hover:drop-shadow-none">
-            <div className="flex flex-row items-center gap-2 rounded-full px-10 py-[5px] transition-all duration-200 group-hover:bg-richblack-900">
-              <p>Become an Instructor</p>
-              <FaArrowRight />
-            </div>
-          </div>
-        </Link>
+    <div className="overflow-hidden bg-[#050816] text-white">
+      <section className="relative min-h-[calc(100vh-72px)] px-4 pb-12 pt-16 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(20,184,166,0.22),transparent_28%),radial-gradient(circle_at_80%_0%,rgba(99,102,241,0.26),transparent_30%),linear-gradient(135deg,rgba(5,8,22,0.92),rgba(10,18,35,0.96))]" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050816] to-transparent" />
 
-        {/* Heading */}
-        <div className="text-center text-4xl font-semibold">
-          Empower Your Future with
-          <HighlightText text={"Coding Skills"} />
-        </div>
-
-        {/* Sub Heading */}
-        <div className="-mt-3 w-[90%] text-center text-lg font-bold text-richblack-300">
-          With our online coding courses, you can learn at your own pace, from
-          anywhere in the world, and get access to a wealth of resources,
-          including hands-on projects, quizzes, and personalized feedback from
-          instructors.
-        </div>
-
-        {/* CTA Buttons */}
-        <div className="mt-8 flex flex-row gap-7">
-          <CTAButton active={true} linkto={"/signup"}>
-            Learn More
-          </CTAButton>
-          <CTAButton active={false} linkto={"/login"}>
-            Book a Demo
-          </CTAButton>
-        </div>
-
-        {/* Video */}
-        <div className="mx-3 my-7 shadow-[10px_-5px_50px_-5px] shadow-blue-200">
-          <video
-            className="shadow-[20px_20px_rgba(255,255,255)]"
-            muted
-            loop
-            autoPlay
+        <div className="relative mx-auto grid max-w-maxContent items-center gap-10 lg:grid-cols-[1.02fr_0.98fr]">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="flex flex-col gap-8"
           >
-            <source src={Banner} type="video/mp4" />
-          </video>
-        </div>
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/8 px-4 py-2 text-sm text-richblack-50 shadow-[0_20px_80px_rgba(0,0,0,0.25)] backdrop-blur-xl">
+              <FaCrown className="text-yellow-50" />
+              StudySphere Pro is live with Razorpay subscriptions
+            </div>
 
-        {/* Code Section 1  */}
-        <div>
-          <CodeBlocks
-            position={"lg:flex-row"}
-            heading={
-              <div className="text-4xl font-semibold">
-                Unlock your
-                <HighlightText text={"coding potential"} /> with our online
-                courses.
-              </div>
-            }
-            subheading={
-              "Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."
-            }
-            ctabtn1={{
-              btnText: "Try it Yourself",
-              link: "/signup",
-              active: true,
-            }}
-            ctabtn2={{
-              btnText: "Learn More",
-              link: "/signup",
-              active: false,
-            }}
-            codeColor={"text-yellow-25"}
-            codeblock={`<!DOCTYPE html>\n <html lang="en">\n<head>\n<title>This is myPage</title>\n</head>\n<body>\n<h1><a href="/">Header</a></h1>\n<nav> <a href="/one">One</a> <a href="/two">Two</a> <a href="/three">Three</a>\n</nav>\n</body>`}
-            backgroundGradient={<div className="codeblock1 absolute"></div>}
-          />
-        </div>
+            <div className="space-y-6">
+              <h1 className="max-w-5xl text-5xl font-semibold leading-[1.02] tracking-normal text-white sm:text-6xl lg:text-7xl">
+                StudySphere
+                <span className="block bg-gradient-to-r from-caribbeangreen-50 via-blue-100 to-pink-100 bg-clip-text text-transparent">
+                  learning that feels alive.
+                </span>
+              </h1>
+              <p className="max-w-2xl text-lg leading-8 text-richblack-100">
+                A complete EdTech operating system for students, instructors, and admins with premium courses,
+                realtime communities, gamified progress, secure Razorpay checkout, and polished dashboards.
+              </p>
+            </div>
 
-        {/* Code Section 2 */}
-        <div>
-          <CodeBlocks
-            position={"lg:flex-row-reverse"}
-            heading={
-              <div className="w-[100%] text-4xl font-semibold lg:w-[50%]">
-                Start
-                <HighlightText text={"coding in seconds"} />
-              </div>
-            }
-            subheading={
-              "Go ahead, give it a try. Our hands-on learning environment means you'll be writing real code from your very first lesson."
-            }
-            ctabtn1={{
-              btnText: "Continue Lesson",
-              link: "/signup",
-              active: true,
-            }}
-            ctabtn2={{
-              btnText: "Learn More",
-              link: "/signup",
-              active: false,
-            }}
-            codeColor={"text-white"}
-            codeblock={`import React from "react";\n import CTAButton from "./Button";\nimport TypeAnimation from "react-type";\nimport { FaArrowRight } from "react-icons/fa";\n\nconst Home = () => {\nreturn (\n<div>Home</div>\n)\n}\nexport default Home;`}
-            backgroundGradient={<div className="codeblock2 absolute"></div>}
-          />
-        </div>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link
+                to="/catalog/web-development"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-caribbeangreen-100 px-6 py-3 font-semibold text-richblack-900 transition hover:bg-caribbeangreen-50"
+              >
+                Explore courses <FaArrowRight />
+              </Link>
+              <Link
+                to="/signup"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur-xl transition hover:bg-white/15"
+              >
+                Start free
+              </Link>
+            </div>
 
-        {/* Explore Section */}
-        <ExploreMore />
-      </div>
-
-      {/* Section 2 */}
-      <div className="bg-pure-greys-5 text-richblack-700">
-        <div className="homepage_bg h-[320px]">
-          {/* Explore Full Catagory Section */}
-          <div className="mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8">
-            <div className="lg:h-[150px]"></div>
-            <div className="flex flex-row gap-7 text-white lg:mt-8">
-              <CTAButton active={true} linkto={"/signup"}>
-                <div className="flex items-center gap-2">
-                  Explore Full Catalog
-                  <FaArrowRight />
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {stats.map((item) => (
+                <div key={item.label} className="rounded-lg border border-white/10 bg-white/8 p-4 backdrop-blur-xl">
+                  <div className="text-2xl font-semibold text-white">{item.value}</div>
+                  <div className="mt-1 text-xs uppercase tracking-[0.14em] text-richblack-200">{item.label}</div>
                 </div>
-              </CTAButton>
-              <CTAButton active={false} linkto={"/login"}>
-                Learn More
-              </CTAButton>
+              ))}
             </div>
-          </div>
-        </div>
+          </motion.div>
 
-        <div className="mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 ">
-          {/* Job that is in Demand - Section 1 */}
-          <div className="mb-10 mt-[-100px] flex flex-col justify-between gap-7 lg:mt-20 lg:flex-row lg:gap-0">
-            <div className="text-4xl font-semibold lg:w-[45%] ">
-              Get the skills you need for a{" "}
-              <HighlightText text={"job that is in demand."} />
-            </div>
-            <div className="flex flex-col items-start gap-10 lg:w-[40%]">
-              <div className="text-[16px]">
-                The modern StudyNotion is the dictates its own terms. Today, to
-                be a competitive specialist requires more than professional
-                skills.
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="relative"
+          >
+            <div className="overflow-hidden rounded-lg border border-white/10 bg-white/8 shadow-[0_30px_120px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+              <video className="aspect-video w-full object-cover" muted loop autoPlay playsInline>
+                <source src={Banner} type="video/mp4" />
+              </video>
+              <div className="grid gap-3 border-t border-white/10 p-4 sm:grid-cols-3">
+                <div className="rounded-md bg-richblack-900/70 p-3">
+                  <div className="text-xs text-richblack-200">Today</div>
+                  <div className="mt-1 text-xl font-semibold">142 min</div>
+                </div>
+                <div className="rounded-md bg-richblack-900/70 p-3">
+                  <div className="text-xs text-richblack-200">Streak</div>
+                  <div className="mt-1 text-xl font-semibold text-yellow-50">18 days</div>
+                </div>
+                <div className="rounded-md bg-richblack-900/70 p-3">
+                  <div className="text-xs text-richblack-200">XP</div>
+                  <div className="mt-1 text-xl font-semibold text-caribbeangreen-50">12,480</div>
+                </div>
               </div>
-              <CTAButton active={true} linkto={"/signup"}>
-                <div className="">Learn More</div>
-              </CTAButton>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-[#08111f] px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-maxContent">
+          <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-caribbeangreen-50">
+                Student experience
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">Everything after enrollment matters.</h2>
+            </div>
+            <p className="max-w-xl text-richblack-200">
+              StudySphere combines the polish of a SaaS dashboard with the emotional loops that make learners return.
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {pillars.map(({ icon: Icon, title, copy }) => (
+              <motion.div
+                key={title}
+                whileHover={{ y: -6 }}
+                className="rounded-lg border border-white/10 bg-white/[0.06] p-5 backdrop-blur-xl"
+              >
+                <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-md bg-white/10 text-caribbeangreen-50">
+                  <Icon />
+                </div>
+                <h3 className="text-lg font-semibold text-white">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-richblack-200">{copy}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-maxContent gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-pink-100">Command center</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">Built for admins and operators.</h2>
+            <p className="mt-4 text-richblack-200">
+              Admins can approve courses, monitor payments, moderate reported content, and track subscription revenue
+              without digging through backend logs.
+            </p>
+            <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/8 px-4 py-2 text-sm text-richblack-100">
+              <FaShieldAlt className="text-caribbeangreen-50" />
+              JWT, role middleware, rate limiting, Helmet, CORS, and webhook signatures
             </div>
           </div>
 
-          {/* Timeline Section - Section 2 */}
-          <TimelineSection />
-
-          {/* Learning Language Section - Section 3 */}
-          <LearningLanguageSection />
+          <div className="grid gap-3 sm:grid-cols-2">
+            {adminCards.map((card) => (
+              <div key={card} className="rounded-lg border border-white/10 bg-white/[0.06] p-5 text-richblack-50">
+                {card}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Section 3 */}
-      <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
-        {/* Become a instructor section */}
-        <InstructorSection />
+      <section className="mx-auto max-w-maxContent px-4 pb-16 sm:px-6 lg:px-8">
+        <h2 className="text-center text-3xl font-semibold text-white sm:text-4xl">Learners stay because momentum is visible.</h2>
+        <div className="mt-8">
+          <ReviewSlider />
+        </div>
+      </section>
 
-        {/* Reviws from Other Learner */}
-        <h1 className="text-center text-4xl font-semibold mt-8">
-          Reviews from other learners
-        </h1>
-        <ReviewSlider />
-      </div>
-
-      {/* Footer */}
       <Footer />
     </div>
   )

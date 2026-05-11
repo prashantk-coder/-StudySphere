@@ -1,4 +1,14 @@
-const BASE_URL = "http://localhost:4000/api/v1"
+const browserEnv =
+  typeof import.meta !== "undefined" && import.meta.env ? import.meta.env : {}
+
+const legacyEnv =
+  typeof process !== "undefined" && process.env ? process.env : {}
+
+const BASE_URL =
+  browserEnv.VITE_API_BASE_URL ||
+  browserEnv.REACT_APP_BASE_URL ||
+  legacyEnv.REACT_APP_BASE_URL ||
+  "http://localhost:4000/api/v1"
 
 // AUTH ENDPOINTS
 export const endpoints = {
@@ -20,7 +30,30 @@ export const profileEndpoints = {
 export const studentEndpoints = {
   COURSE_PAYMENT_API: BASE_URL + "/payment/capturePayment",
   COURSE_VERIFY_API: BASE_URL + "/payment/verifyPayment",
+  COURSE_ORDER_API: BASE_URL + "/payment/orders",
+  PAYMENT_VERIFY_API: BASE_URL + "/payment/verify",
+  PURCHASE_HISTORY_API: BASE_URL + "/payment/history",
+  SUBSCRIPTION_API: BASE_URL + "/payment/subscriptions",
   SEND_PAYMENT_SUCCESS_EMAIL_API: BASE_URL + "/payment/sendPaymentSuccessEmail",
+}
+
+// PLATFORM API
+export const platformEndpoints = {
+  NOTIFICATIONS_API: BASE_URL + "/platform/notifications",
+  MARK_NOTIFICATIONS_READ_API: BASE_URL + "/platform/notifications/read",
+  MESSAGES_API: BASE_URL + "/platform/messages",
+  QUIZ_ATTEMPTS_API: BASE_URL + "/platform/quiz-attempts",
+  CERTIFICATES_API: BASE_URL + "/platform/certificates",
+  LEADERBOARD_API: BASE_URL + "/platform/leaderboard",
+  TODAY_CHALLENGE_API: BASE_URL + "/platform/challenges/today",
+}
+
+// ADMIN API
+export const adminEndpoints = {
+  ANALYTICS_API: BASE_URL + "/admin/analytics",
+  USERS_API: BASE_URL + "/admin/users",
+  PENDING_COURSES_API: BASE_URL + "/admin/courses/pending",
+  PAYMENTS_API: BASE_URL + "/admin/payments",
 }
 
 // COURSE ENDPOINTS
@@ -69,4 +102,11 @@ export const settingsEndpoints = {
   UPDATE_PROFILE_API: BASE_URL + "/profile/updateProfile",
   CHANGE_PASSWORD_API: BASE_URL + "/auth/changepassword",
   DELETE_PROFILE_API: BASE_URL + "/profile/deleteProfile",
+}
+
+// WISHLIST API
+export const wishlistEndpoints = {
+  GET_WISHLIST_API: BASE_URL + "/wishlist",
+  ADD_WISHLIST_API: BASE_URL + "/wishlist/add",
+  REMOVE_WISHLIST_API: BASE_URL + "/wishlist/remove",
 }

@@ -70,32 +70,30 @@
 const nodemailer = require("nodemailer");
 
 const mailSender = async (email, title, body) => {
-  try {
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
-      },
-    });
-
-    await transporter.verify();
-    console.log("Mail server is ready");
-
-
-    let info = await transporter.sendMail({
-      from: `"StudyNotion" <${process.env.MAIL_USER}>`, // better sender
-      to: email,
-      subject: title,
-      html: body,
-    });
-
-    console.log("Email sent:", info.response);
-    return info;
-
-  } catch (error) {
-    console.log("FULL ERROR:", error);   // 🔥 print full error
+  if (!process.env.MAIL_USER || !process.env.MAIL_PASS) {
+    throw new Error("MAIL_USER and MAIL_PASS must be configured to send email");
   }
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS,
+    },
+  });
+
+  await transporter.verify();
+  console.log("Mail server is ready");
+
+  const info = await transporter.sendMail({
+    from: `"StudyNotion" <${process.env.MAIL_USER}>`,
+    to: email,
+    subject: title,
+    html: body,
+  });
+
+  console.log("Email sent:", info.response);
+  return info;
 };
 
 module.exports = mailSender;

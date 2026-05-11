@@ -8,6 +8,16 @@ import { resetCart } from "../../slices/cartSlice";
 
 const {COURSE_PAYMENT_API, COURSE_VERIFY_API, SEND_PAYMENT_SUCCESS_EMAIL_API} = studentEndpoints;
 
+const getBrowserEnv = (key) => {
+    if (typeof import.meta !== "undefined" && import.meta.env?.[key]) {
+        return import.meta.env[key];
+    }
+    if (typeof process !== "undefined" && process.env?.[key]) {
+        return process.env[key];
+    }
+    return undefined;
+}
+
 function loadScript(src) {
     return new Promise((resolve) => {
         const script = document.createElement("script");
@@ -46,13 +56,20 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
             throw new Error(orderResponse.data.message);
         }
         console.log("PRINTING orderResponse", orderResponse);
+        const order =
+            orderResponse?.data?.data ||
+            orderResponse?.data?.message;
+
+        if (!order?.id || !order?.amount || !order?.currency) {
+            throw new Error("Invalid order response from server");
+        }
         //options
         const options = {
-            key: process.env.RAZORPAY_KEY,
-            currency: orderResponse.data.message.currency,
-            amount: `${orderResponse.data.message.amount}`,
-            order_id:orderResponse.data.message.id,
-            name:"StudyNotion",
+            key: getBrowserEnv("VITE_RAZORPAY_KEY_ID") || getBrowserEnv("REACT_APP_RAZORPAY_KEY"),
+            currency: order.currency,
+            amount: `${order.amount}`,
+            order_id: order.id,
+            name:"StudySphere",
             description: "Thank You for Purchasing the Course",
             image:rzpLogo,
             prefill: {
@@ -61,7 +78,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
             },
             handler: function(response) {
                 //send successful wala mail
-                sendPaymentSuccessEmail(response, orderResponse.data.message.amount,token );
+                sendPaymentSuccessEmail(response, order.amount, token );
                 //verifyPayment
                 verifyPayment({...response, courses}, token, navigate, dispatch);
             }

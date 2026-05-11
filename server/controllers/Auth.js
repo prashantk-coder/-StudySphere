@@ -133,7 +133,7 @@ exports.login = async (req, res) => {
 
     if (await bcrypt.compare(password, user.password)) {
       const token = jwt.sign(
-        { email: user.email, id: user._id },
+        { email: user.email, id: user._id, accountType: user.accountType },
         process.env.JWT_SECRET,
         { expiresIn: "24h" }
       )
@@ -170,8 +170,14 @@ exports.login = async (req, res) => {
 // ================= SEND OTP =================
 exports.sendotp = async (req, res) => {
   try {
-    // ✅ FIXED (added accountType)
-    const { email, accountType } = req.body
+    const { email } = req.body
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required",
+      })
+    }
 
     const checkUserPresent = await User.findOne({ email })
 
@@ -193,6 +199,8 @@ exports.sendotp = async (req, res) => {
     while (result) {
       otp = otpGenerator.generate(6, {
         upperCaseAlphabets: false,
+        lowerCaseAlphabets: false,
+        specialChars: false,
       })
       result = await OTP.findOne({ otp: otp })
     }
@@ -205,12 +213,13 @@ exports.sendotp = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "OTP Sent Successfully",
-      otp,
+      ...(process.env.NODE_ENV !== "production" ? { otp } : {}),
     })
   } catch (error) {
-    console.log(error.message)
+    console.error("SEND OTP ERROR:", error)
     return res.status(500).json({
       success: false,
+      message: "Could not send OTP. Please try again.",
       error: error.message,
     })
   }
