@@ -1,5 +1,8 @@
 const express = require("express");
 const app = express();
+
+app.set("trust proxy", 1);
+
 const http = require("http");
 
 const userRoutes = require("./routes/User");
@@ -46,8 +49,8 @@ app.use(morgan("tiny"));
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    limit: 300,
-    standardHeaders: "draft-7",
+    max: 300,
+    standardHeaders: true,
     legacyHeaders: false,
   })
 );
