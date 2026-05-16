@@ -3,16 +3,19 @@ const nodemailer = require("nodemailer");
 const mailSender = async (email, title, body) => {
   try {
     // CHECK ENV VARIABLES
-    if (!process.env.MAIL_USER || !process.env.MAIL_PASS) {
-      throw new Error(
-        "MAIL_USER and MAIL_PASS must be configured properly"
-      );
+    if (
+      !process.env.MAIL_HOST ||
+      !process.env.MAIL_PORT ||
+      !process.env.MAIL_USER ||
+      !process.env.MAIL_PASS
+    ) {
+      throw new Error("Mail environment variables are missing");
     }
 
     // CREATE TRANSPORTER
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
+      host: process.env.MAIL_HOST,
+      port: Number(process.env.MAIL_PORT),
       secure: false,
 
       auth: {
@@ -29,11 +32,12 @@ const mailSender = async (email, title, body) => {
       socketTimeout: 30000,
     });
 
-    // VERIFY CONNECTION
+    // VERIFY SMTP CONNECTION
     await transporter.verify();
+
     console.log("Mail server connected successfully");
 
-    // SEND MAIL
+    // SEND EMAIL
     const info = await transporter.sendMail({
       from: `"StudySphere" <${process.env.MAIL_USER}>`,
       to: email,
