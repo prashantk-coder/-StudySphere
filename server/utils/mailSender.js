@@ -1,99 +1,50 @@
-// const nodemailer = require("nodemailer");
-
-// const mailSender = async (email, title, body) => {
-//     try{
-//             let transporter = nodemailer.createTransport({
-//                 host:process.env.MAIL_HOST,
-//                 auth:{
-//                     user: process.env.MAIL_USER,
-//                     pass: process.env.MAIL_PASS,
-//                 }
-//             })
-
-
-//             let info = await transporter.sendMail({
-//                 from: 'StudyNotion || CodeHelp - by Babbar',
-//                 to:`${email}`,
-//                 subject: `${title}`,
-//                 html: `${body}`,
-//             })
-//             console.log(info);
-//             return info;
-//     }
-//     catch(error) {
-//         console.log(error.message);
-//     }
-// }
-
-
-// module.exports = mailSender;
-
-
-
-
-
-
-// const nodemailer = require("nodemailer");
-
-// const mailSender = async (email, title, body) => {
-//   try {
-//     let transporter = nodemailer.createTransport({
-//       service: "gmail", 
-//       auth: {
-//         user: process.env.MAIL_USER,
-//         pass: process.env.MAIL_PASS,
-//       },
-//     });
-
-//     let info = await transporter.sendMail({
-//       from: '"StudyNotion" <no-reply@studynotion.com>',
-//       to: email,
-//       subject: title,
-//       html: body,
-//     });
-
-//     console.log("Email sent successfully:", info.response);
-//     return info;
-//   } catch (error) {
-//     console.log("Error while sending mail:", error.message);
-//   }
-// };
-
-// module.exports = mailSender;
-
-
-
-
-
-
-
 const nodemailer = require("nodemailer");
 
 const mailSender = async (email, title, body) => {
-  if (!process.env.MAIL_USER || !process.env.MAIL_PASS) {
-    throw new Error("MAIL_USER and MAIL_PASS must be configured to send email");
+  try {
+    // CHECK ENV VARIABLES
+    if (!process.env.MAIL_USER || !process.env.MAIL_PASS) {
+      throw new Error(
+        "MAIL_USER and MAIL_PASS must be configured properly"
+      );
+    }
+
+    // CREATE TRANSPORTER
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
+      },
+
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
+    });
+
+    // VERIFY CONNECTION
+    await transporter.verify();
+    console.log("Mail server connected successfully");
+
+    // SEND MAIL
+    const info = await transporter.sendMail({
+      from: `"StudySphere" <${process.env.MAIL_USER}>`,
+      to: email,
+      subject: title,
+      html: body,
+    });
+
+    console.log("Email sent successfully:", info.response);
+
+    return info;
+  } catch (error) {
+    console.log("SEND OTP ERROR:", error);
+
+    throw error;
   }
-
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS,
-    },
-  });
-
-  await transporter.verify();
-  console.log("Mail server is ready");
-
-  const info = await transporter.sendMail({
-    from: `"StudyNotion" <${process.env.MAIL_USER}>`,
-    to: email,
-    subject: title,
-    html: body,
-  });
-
-  console.log("Email sent:", info.response);
-  return info;
 };
 
 module.exports = mailSender;
