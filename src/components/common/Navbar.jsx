@@ -36,7 +36,7 @@ function Navbar() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       setLoading(true)
 
       try {
@@ -121,15 +121,14 @@ function Navbar() {
               <li key={index}>
                 {link.title === "Catalog" ? (
                   <div className="relative flex items-center group">
-                    
+
                     <div
                       className={`
                         flex cursor-pointer items-center gap-1
                         font-medium transition-all duration-300
-                        ${
-                          matchRoute("/catalog/:catalogName")
-                            ? "text-yellow-50"
-                            : "text-richblack-25 hover:text-cyan-300"
+                        ${matchRoute("/catalog/:catalogName")
+                          ? "text-yellow-50"
+                          : "text-richblack-25 hover:text-cyan-300"
                         }
                       `}
                     >
@@ -164,12 +163,7 @@ function Navbar() {
                           </p>
                         ) : subLinks &&
                           subLinks.length ? (
-                          subLinks
-                            ?.filter(
-                              (subLink) =>
-                                subLink?.courses?.length > 0
-                            )
-                            ?.map((subLink, i) => (
+                          subLinks?.map((subLink, i) => (
                               <Link
                                 key={i}
                                 to={`/catalog/${subLink.name
@@ -183,7 +177,7 @@ function Navbar() {
                             ))
                         ) : (
                           <p className="py-4 text-center text-richblack-200">
-                            No Courses Found
+                            No Categories Found
                           </p>
                         )}
                       </div>
@@ -194,10 +188,9 @@ function Navbar() {
                     <p
                       className={`
                         relative font-medium transition-all duration-300
-                        ${
-                          matchRoute(link?.path)
-                            ? "text-yellow-50"
-                            : "text-richblack-25 hover:text-cyan-300"
+                        ${matchRoute(link?.path)
+                          ? "text-yellow-50"
+                          : "text-richblack-25 hover:text-cyan-300"
                         }
                       `}
                     >
@@ -212,10 +205,10 @@ function Navbar() {
 
         {/* RIGHT SIDE */}
         <div className="items-center hidden gap-x-4 md:flex">
-          
+
           {user &&
             user?.accountType !==
-              ACCOUNT_TYPE.INSTRUCTOR && (
+            ACCOUNT_TYPE.INSTRUCTOR && (
               <Link
                 to="/dashboard/cart"
                 className="relative p-2 transition-all duration-300 rounded-full hover:bg-richblack-800"

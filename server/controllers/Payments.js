@@ -117,9 +117,12 @@ exports.capturePayment = async (req, res) => {
 
 		return res.json({
 			success: true,
-			data: razorpayOrder,
-			message: razorpayOrder,
+			data: {
+				...razorpayOrder,
+				key: process.env.RAZORPAY_KEY,
+			},
 			orderId: order._id,
+			message: "Order Created Successfully",
 		});
 	} catch (error) {
 		return res.status(error.statusCode || 500).json({ success: false, message: error.message });
