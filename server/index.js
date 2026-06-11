@@ -34,6 +34,9 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
+console.log("SMTP HOST:", process.env.MAIL_HOST);
+console.log("SMTP USER:", process.env.MAIL_USER);
+
 const PORT = process.env.PORT || 4000;
 
 // DATABASE CONNECTION
